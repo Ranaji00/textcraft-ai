@@ -16,11 +16,17 @@ const Sidebar = () => {
 
     // Get user data from localStorage
     const storedUser = localStorage.getItem("user");
+    console.log("Sidebar - storedUser from localStorage:", storedUser); // Debug
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
+        console.log("Sidebar - parsed userData:", userData); // Debug
         setUsername(userData.name || userData.username || "User");
         setUserHandle("@" + (userData.username || "user"));
+        console.log(
+          "Sidebar - set username to:",
+          userData.name || userData.username || "User"
+        ); // Debug
       } catch (err) {
         console.error("Error parsing user data:", err);
       }

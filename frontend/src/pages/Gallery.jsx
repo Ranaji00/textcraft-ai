@@ -44,6 +44,7 @@ const Gallery = () => {
 
     // Check if user is logged in
     const token = localStorage.getItem("authToken");
+    console.log("Gallery - handleLike - token from localStorage:", token); // Debug
     if (!token) {
       alert("Please login to like images!");
       window.location.href = "/Register";
@@ -83,6 +84,7 @@ const Gallery = () => {
 
     // Check if user is logged in
     const token = localStorage.getItem("authToken");
+    console.log("Gallery - handleDownload - token from localStorage:", token); // Debug
     if (!token) {
       alert("Please login to download images!");
       window.location.href = "/Register";

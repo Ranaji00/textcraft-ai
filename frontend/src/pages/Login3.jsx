@@ -78,8 +78,17 @@ function Login() {
           "Token found, saving to localStorage:",
           response.data.token
         );
+        console.log("User data from response:", response.data.user);
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        console.log(
+          "Saved to localStorage - authToken:",
+          localStorage.getItem("authToken")
+        );
+        console.log(
+          "Saved to localStorage - user:",
+          localStorage.getItem("user")
+        );
         console.log("Token saved! Navigating to home...");
       } else {
         console.error("No token in response!");
