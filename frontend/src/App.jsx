@@ -18,19 +18,44 @@ const App = () => {
       <Routes>
         <Route path="/Register" element={<Login />} />
         <Route path="/" element={<Home />} />
+
+        {/* Public routes - No login required */}
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/subscription" element={<Subscription />} />
-        <Route path="/subs" element={<Subscription />} />
+        <Route path="/genimg" element={<Home2 />} />
+
+        {/* Protected routes - Login required */}
         <Route
-          path="/genimg"
+          path="/subscription"
           element={
             <ProtectedRoute>
-              <Home2 /> {/* This page is only accessible if logged in */}
+              <Subscription />
             </ProtectedRoute>
           }
         />
-        <Route path="/profile" element={<User />} />
-        <Route path="/edit" element={<Edit />} />
+        <Route
+          path="/subs"
+          element={
+            <ProtectedRoute>
+              <Subscription />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <User />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit"
+          element={
+            <ProtectedRoute>
+              <Edit />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {/* <Header />

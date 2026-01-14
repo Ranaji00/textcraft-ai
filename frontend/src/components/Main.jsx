@@ -103,6 +103,14 @@ const Main = () => {
 
   // Handle like button click
   const handleLike = async () => {
+    // Check if user is logged in
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Please login to like images!");
+      window.location.href = "/Register";
+      return;
+    }
+
     if (!currentImageId) {
       alert("Please generate an image first!");
       return;

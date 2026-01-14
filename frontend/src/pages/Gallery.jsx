@@ -41,6 +41,15 @@ const Gallery = () => {
   // Handle like button
   const handleLike = async (imageId, e) => {
     e.stopPropagation();
+
+    // Check if user is logged in
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Please login to like images!");
+      window.location.href = "/Register";
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/image/like/${imageId}`, {
         method: "POST",
@@ -71,6 +80,15 @@ const Gallery = () => {
   // Download image
   const handleDownload = (image, e) => {
     e.stopPropagation();
+
+    // Check if user is logged in
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Please login to download images!");
+      window.location.href = "/Register";
+      return;
+    }
+
     const link = document.createElement("a");
     link.href = image.image;
     const sanitizedPrompt = image.prompt
