@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const Trendbar = () => {
   const [images, setImages] = useState([]); // Store fetched images
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   // Fetch the saved images from the backend
   useEffect(() => {
@@ -9,7 +10,7 @@ const Trendbar = () => {
       try {
         console.log("Fetching images from backend...");
 
-        const response = await fetch("http://localhost:5000/image/get-images");
+        const response = await fetch(`${API_URL}/image/get-images`);
 
         // Debugging: Check the status of the response
         if (!response.ok) {
