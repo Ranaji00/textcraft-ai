@@ -69,17 +69,26 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post("/user/login", signInData); // Change to /user/login
+      console.log("Login response:", response.data); // Debug: see what we get
       setMessage("Logged in successfully!");
 
       // Save token to localStorage
       if (response.data.token) {
+        console.log(
+          "Token found, saving to localStorage:",
+          response.data.token
+        );
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        console.log("Token saved! Navigating to home...");
+      } else {
+        console.error("No token in response!");
       }
 
       // Navigate to home page after successful login
       navigate("/home"); // Redirect to the home page
     } catch (error) {
+      console.error("Login error:", error);
       setMessage(error.response?.data?.message || "Sign In Failed!");
     }
   };
