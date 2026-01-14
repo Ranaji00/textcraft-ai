@@ -70,7 +70,12 @@ function Login() {
     try {
       const response = await axios.post("/user/login", signInData); // Change to /user/login
       setMessage("Logged in successfully!");
-      const token = response.headers["set-cookie"];
+
+      // Save token to localStorage
+      if (response.data.token) {
+        localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
 
       // Navigate to home page after successful login
       navigate("/home"); // Redirect to the home page

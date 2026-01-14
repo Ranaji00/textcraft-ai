@@ -1,9 +1,13 @@
 const jwt = require('jsonwebtoken');
-const Cookies = require('js-cookie');  // Use js-cookie to read cookies server-side
 
 // Authentication Middleware
 const authMiddleware = (req, res, next) => {
-  const token = req.cookies.token; // Get token from cookies (not from headers)
+  // Try to get token from Authorization header first, then fall back to cookies
+  let token = req.headers.authorization?.split(' ')[1]; // Bearer token
+  
+  if (!token) {
+    token = req.cookies.token; // Fallback to cookie
+  }
 
   if (!token) {
     return res.status(401).json({ message: 'Authorization token is required' });

@@ -3,7 +3,7 @@
 
 // const ProtectedRoute = ({ children }) => {
 //     console.log('ProtectedRoute rendered'); // Check if component is rendered
-  
+
 //     const [loading, setLoading] = useState(true);
 //     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -12,8 +12,7 @@
 
 //         const token = localStorage.getItem("authToken");
 //         console.log("Retrieved token from localStorage:", token);
-        
-        
+
 //         if (token) {
 //             console.log('Token found:', token); // Check if token is found
 
@@ -67,7 +66,6 @@
 
 // export default ProtectedRoute;
 
-
 // code 2
 
 // import React, { useEffect, useState } from "react";
@@ -104,9 +102,7 @@
 
 // export default ProtectedRoute;
 
-
 // code 3
-
 
 // import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
@@ -133,7 +129,7 @@
 //       setLoading(false); // Stop loading once the redirect is triggered
 //     } else {
 //       console.log("Token found, checking with backend.");
-      
+
 //       // Make a request to check if the token is valid
 //       axios
 //       axios.defaults.withCredentials = true// Use your backend route to verify token
@@ -162,7 +158,6 @@
 // };
 
 // export default ProtectedRoute;
- 
 
 //code 4
 
@@ -174,36 +169,53 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  console.log('ProtectedRoute rendered'); // Check if component is rendered
+  console.log("ProtectedRoute rendered");
 
   useEffect(() => {
-    console.log('useEffect running'); // Check if useEffect is being triggered
+    console.log("useEffect running");
 
-    // Send a request to verify the token on the server
+    // Get token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.log("No token found!");
+      navigate("/Register");
+      setLoading(false);
+      return;
+    }
+
+    // Verify token with backend
     axios
-      .get("/user/verifyToken", { withCredentials: true }) // Ensure cookies are sent with credentials
+      .get(`${API_URL}/user/verifyToken`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log("Token is valid:", response.data);
-        setIsAuthenticated(true); // Set authenticated if token is valid
-        setLoading(false); // Stop loading
+        setIsAuthenticated(true);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Token verification failed:", error);
-        navigate("/Register"); // Redirect to Login if token is invalid or expired
-        setLoading(false); // Stop loading
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        navigate("/Register");
+        setLoading(false);
       });
-  }, [navigate]);
+  }, [navigate, API_URL]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading spinner or message while checking authentication
+    return <div>Loading...</div>;
   }
 
   if (!isAuthenticated) {
-    return null; // Optionally show nothing while redirecting
+    return null;
   }
 
-  return <>{children}</>; // Render protected content if authenticated
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
