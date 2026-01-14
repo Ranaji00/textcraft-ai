@@ -86,7 +86,7 @@ function Login() {
       }
 
       // Navigate to home page after successful login
-      navigate("/home"); // Redirect to the home page
+      navigate("/genimg"); // Redirect to the image generation page
     } catch (error) {
       console.error("Login error:", error);
       setMessage(error.response?.data?.message || "Sign In Failed!");
