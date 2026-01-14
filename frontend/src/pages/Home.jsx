@@ -5,8 +5,8 @@ import Section02h from "../components/Section02h";
 import Section01h from "../components/Section01h";
 import Extra from "../components/Extra";
 import Extra2 from "../components/Extra2";
-import Text from "../components/text";
-import Text3 from "../components/text3";
+import Text from "../components/Text";
+import Text3 from "../components/Text3";
 
 const Home = () => {
   return (
