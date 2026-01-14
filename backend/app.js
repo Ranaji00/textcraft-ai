@@ -17,9 +17,17 @@ const userRouter = require("./routes/user.routes");
 
 // Middleware
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://textcraft-ai.vercel.app', 'http://localhost:5174', 'http://localhost:5173'] 
-        : ['http://localhost:5174', 'http://localhost:5173'],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // Allow all Vercel preview and production URLs
+        if (origin.includes('vercel.app') || origin.includes('localhost')) {
+            return callback(null, true);
+        }
+        
+        callback(new Error('Not allowed by CORS'));
+    },
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization,Cookie',
     credentials: true,
